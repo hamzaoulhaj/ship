@@ -55,7 +55,7 @@ for param in model.parameters():
     param.requires_grad = False   
 out_size = model.fc.in_features
 model.fc = nn.Linear(out_size, num_classes)
-
+#model.load_state_dict(torch.load('model/model.pth'))
 
 torchvision.transforms.functional.resize
 transform = transforms.Compose(
@@ -156,6 +156,6 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=3, gamma=0.1)
 
 model_trained = train_model(model, criterion, optimizer, exp_lr_scheduler,
-                       num_epochs=6)
-torch.save(model_trained.state_dict(), 'models/resnet50')
+                       num_epochs=2)
+torch.save(model_trained.state_dict(), 'models/model.pth')
 
