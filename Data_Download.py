@@ -14,7 +14,7 @@ import os
 FILE_TO_DOWNLOAD_FROM = "VesselClassification.dat"
 ##FILE_TO_DOWNLOAD_FROM = "IMOTrainAndTest.dat" 
 
-NUMBER_OF_WORKERS = 30
+NUMBER_OF_WORKERS = 40
 MAX_NUM_OF_FILES_IN_FOLDER = 5000
 IMAGE_HEIGHT = 256
 IMAGE_WIDTH = 256
@@ -37,7 +37,7 @@ logging.debug("Process started at " + str(datetime.datetime.now()))
 
 def save_image(ID,justImage,outFolder):
     url = sourceLink + ID
-    html = urlopen(url,timeout = 300).read()
+    html = urlopen(url,timeout = 1000).read()
     soup = BeautifulSoup(html,"lxml")
 
     images = [img for img in soup.findAll('img')]
@@ -157,31 +157,6 @@ while flag:
         flag = False
 print('done')
 logging.debug(str(datetime.datetime.now()) + " - list all files startes ")
-allPaths = []
-allIDs = []
-dirs = os.listdir(os.getcwd())
-for eachDir in dirs:
-    if 'W' in eachDir:
-        FinalList = os.listdir(os.path.join(os.getcwd(),eachDir))
-        for eachFile in FinalList:
-            if ".jpg" in eachFile:
-                fPath = os.path.join(os.getcwd(),eachDir,eachFile)
-                fID = eachFile.split(".")[0]
-                allPaths.append(fPath)
-                allIDs.append(fID)
-logging.debug(str(datetime.datetime.now()) + " - write to disc ")
-
-FINAL = codecs.open("FINAL.dat","w","utf-8")
-for eachLine in downloadContent:
-    tempID = eachLine.split(",")[0]
-    try:
-        tempIndex = allIDs.index(tempID)
-        FINAL.write(eachLine[:-1]+","+str(allPaths[tempIndex])+"\n")
-    except:
-        FINAL.write(eachLine[:-1]+","+"-\n")
-FINAL.close()
-
-
 
 
 

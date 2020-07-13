@@ -40,9 +40,12 @@ for eachLine in downloadContent:
         tempIndex = allIDs.index(tempID)
         label = eachLine.split(",")[2]
         train = eachLine.split(",")[1]
-        inter.write(tempID+","+train+","+label+","+str(allPaths[tempIndex])+"\n")
+        image = io.imread(allPaths[tempIndex])
+        inter.write(tempID+","+train+","+str(int(label)-1)+","+str(allPaths[tempIndex])+"\n")
+        print(allPaths[tempIndex])
     except:
         continue
+print('done')
 inter.close()
 
 
@@ -56,7 +59,7 @@ for line in inter.readlines():
     image = io.imread(path)
     if image.ndim ==3 and image.shape[2] == 3 and int(origin[1])==1:
         dataset_train.write(line)
-
+print('done')
 dataset_train.close()
 inter.close()
 
@@ -66,11 +69,13 @@ for line in inter.readlines():
     origin = line.split(",")
     fID = origin[-1].split("/")
     path = os.path.join(fID[4],origin[0]+'.jpg')
+    print(path)
     image = io.imread(path)
     
     if image.ndim ==3 and image.shape[2] == 3 and int(origin[1])==2:
         dataset_test.write(line)
-
+print('done')
 dataset_test.close()
 inter.close()
+
 

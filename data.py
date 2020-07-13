@@ -27,7 +27,8 @@ class ShipDataset(Dataset):
                 on a sample.
         """
         col_names = ["img", "train", "label","img_path"]
-        self.label = pd.read_csv(csv_file,names=col_names)
+        data = pd.read_csv(csv_file,names=col_names)
+        self.label = data.drop_duplicates('img')
         self.transform = transform
 
     def __len__(self):
